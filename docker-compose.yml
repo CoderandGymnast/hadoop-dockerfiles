@@ -1,0 +1,40 @@
+version: "3"
+services:
+  namenode:
+    image: hungict2407/namenode:1.0.1
+    volumes:
+            - "hadoop-namenode-data:/home/root/hdfs"
+#      - "/opt/hadoop-3.3.1/logs:/opt/hadoop-3.3.1/logs"
+    ports:
+           - "9870:9870"
+           - "9000:9000"
+    networks:
+            - workbench
+    hostname: "namenode"
+    env_file:
+            - "./hadoop.env"
+  datanode0:
+    image: hungict2407/datanode:1.0.1
+    volumes:
+            - "hadoop-datanode0-data:/home/root/hdfs"
+#      - "/opt/hadoop-3.3.1/logs:/opt/hadoop-3.3.1/logs"
+    env_file:
+            - "./hadoop.env"
+    networks:
+            - workbench
+  datanode1:
+    image: hungict2407/datanode:1.0.1
+    volumes:
+            - "hadoop-datanode1-data:/home/root/hdfs"
+#      - "/opt/hadoop-3.3.1/logs:/opt/hadoop-3.3.1/logs"
+    networks:
+            - workbench
+    env_file:
+            - "./hadoop.env"
+networks:
+    workbench:
+            external: true
+volumes:
+    hadoop-namenode-data:
+    hadoop-datanode0-data:
+    hadoop-datanode1-data:
