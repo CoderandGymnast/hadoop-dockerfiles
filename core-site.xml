@@ -19,14 +19,14 @@
 <configuration>
     <property>
         <name>hadoop.tmp.dir</name>
-        <value>/home/root/hdfs</value>
+	<value>${hadoop.tmp.dir}</value>
     </property>
         <property>	 
         <name>fs.defaultFS</name>
-	<value>hdfs://${fs.defaultFS}:9000</value>
+	<value>hdfs://${fs.defaultFS}</value>
     </property>
-    <property>
+    <!--    <property>
         <name>io.file.buffer.size</name>
         <value>131072</value>
-    </property>
+    </property>-->
 </configuration>

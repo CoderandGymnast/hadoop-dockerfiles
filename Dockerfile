@@ -4,10 +4,13 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive 
 
 # Install dependencies.
-RUN apt-get update --fix-missing 
-RUN apt-get install -y openjdk-8-jdk 
-RUN apt-get install -y pdsh \
-      curl
+RUN apt-get update 
+RUN apt-get install --fix-missing -y openjdk-8-jdk 
+RUN apt-get install -y \
+      pdsh \
+      curl \
+      net-tools \
+      iputils-ping
 
 # Export JAVA_HOME.      
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -21,11 +24,13 @@ RUN curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz
 RUN tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz*
 
-# Export environment variables.
-RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
+# "logs" directory will be created by "hdfs namenode -format" if it has not created yet.
 RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
 
-RUN mkdir /hadoop-data
+
+# Export environment variables.
+RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
+
 ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
 ENV USER=root
 ENV PATH $HADOOP_HOME/bin/:$PATH
@@ -38,4 +43,3 @@ COPY *.sh etc/hadoop/
 RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 RUN chmod 0600 ~/.ssh/authorized_keys
-RUN echo "..."

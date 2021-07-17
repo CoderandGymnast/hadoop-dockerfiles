@@ -35,8 +35,12 @@
 # For example:
 #
 #  JAVA_HOME=/usr/java/testing hdfs dfs -ls
-export HADOOP_OPTS="-Dfs.defaultFS=$NAME_NODE_HOST"
 
+# All below configurations of "core-site.xml" & "hdfs-site.xml" is set through environment variables.
+export DFS_REPLICATION="$DFS_REPLICATION"
+export HADOOP_TMP_DIR="$HADOOP_TMP_DIR"
+export FS_DEFAULTFS="$FS_DEFAULTFS"
+export HADOOP_OPTS="-Dfs.defaultFS=$FS_DEFAULTFS -Ddfs.replication=$DFS_REPLICATION -Dhadoop.tmp.dir=$HADOOP_TMP_DIR"
 export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" # Can not use "$JAVA_HOME".
 #
 # Therefore, the vast majority (BUT NOT ALL!) of these defaults
